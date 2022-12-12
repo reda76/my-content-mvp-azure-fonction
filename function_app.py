@@ -12,7 +12,7 @@ def recommandation_5(USER_ID):
     colab_model = pickle.load(open("colab_model.sav", 'rb'))
     
     # import de la dataframe
-    collab_data_df = pd.read_csv("data/collab_data_df.csv")
+    collab_data_df = pd.read_csv("collab_data_df.csv")
     
     sparse_user_item = sparse.csr_matrix(
     (collab_data_df['interactionStrength'].astype(float),
@@ -21,7 +21,7 @@ def recommandation_5(USER_ID):
                                              sparse_user_item[USER_ID],
                                              N=5,
                                              filter_already_liked_items=True)
-    
+
     # Récupère la vrai id des articles et non les encodés
     item_ids_list = item_ids.tolist()
     item_ids_article_id = []
@@ -35,7 +35,8 @@ def recommandation_5(USER_ID):
     article_recommandes = {}
     for i in zip(item_ids_article_id, scores):
         article_recommandes[str(i[0])] = str(i[1])
-    
+
+    article_recommandes = json.dumps(article_recommandes)
     
     return article_recommandes
 
